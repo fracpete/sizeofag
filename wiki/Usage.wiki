@@ -1,0 +1,12 @@
+#summary Using the Java agent
+
+= Command line =
+
+Simply add the following parameter to your Java call:
+{{{
+  -javaagent:sizeofag.jar
+}}}
+
+= Source code =
+
+TODO
