@@ -8,10 +8,20 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Stack;
 
-/** Instrumentation agent used */
+/** 
+ * Instrumentation agent used.
+ * <p/>
+ * This version merely outputs an error message on the commandline if the agent
+ * is not present instead of throwing an exception.
+ *
+ * @author Maxim Zakharenkov
+ * @author FracPete (fracpete at waikato dot ac dot nz)
+ */
 public class SizeOfAgent {
 
 	static Instrumentation inst;
+
+        static Boolean messageDisplayed;
 	
 	/** initializes agent */
 	public static void premain(String agentArgs, Instrumentation instP) {
@@ -21,13 +31,17 @@ public class SizeOfAgent {
 	/**
 	 * Returns object size without member sub-objects.
 	 * @param o object to get size of
-	 * @return object size
+	 * @return object size, 0 is agent not present
 	 */
 	public static long sizeOf(Object o) {
 		if(inst == null) {
-			throw new IllegalStateException("Can not access instrumentation environment.\n" +
+			if (messageDisplayed == null) {
+				messageDisplayed = true;
+	       			System.err.println("Can not access instrumentation environment.\n" +
 					"Please check if jar file containing SizeOfAgent class is \n" +
 					"specified in the java's \"-javaagent\" command line argument.");
+			}
+			return 0;
 		}
 		return inst.getObjectSize(o);
 	}
