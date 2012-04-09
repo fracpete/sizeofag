@@ -1,0 +1,18 @@
+#summary LPGL
+
+= LGPL =
+
+Maxim's email as of March 4, 2012:
+
+{{{
+Hi Peter,
+
+You can use it as you wish, I won't complain.
+The amount of code is really small there and there
+is nothing to hide :) Just you can mention my name 
+somewhere in your product and that would be enough.
+We can agree that the license is LGPL.
+
+Regards,
+Maxim
+}}}
