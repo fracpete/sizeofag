@@ -14,6 +14,11 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
   <scm>
     <connection>scm:svn:http://sizeofag.googlecode.com/svn/trunk/</connection>
     <developerConnection>scm:svn:https://sizeofag.googlecode.com/svn/trunk/</developerConnection>
