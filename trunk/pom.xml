@@ -1,10 +1,10 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.googlecode.sizeofag</groupId>
   <artifactId>sizeofag</artifactId>
   <packaging>jar</packaging>
   <name>SizeOf Agent</name>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <description>sizeofag is a Java Agent that allows you to determine the size of Java objects from within the JVM at runtime. This makes it very useful for developing Java frameworks that take memory constraints into account.</description>
   <url>https://code.google.com/p/sizeofag/</url>
   <licenses>
@@ -20,9 +20,9 @@
     <version>7</version>
   </parent>
   <scm>
-    <connection>scm:svn:http://sizeofag.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:https://sizeofag.googlecode.com/svn/trunk/</developerConnection>
-    <url>http://sizeofag.googlecode.com/svn/trunk/</url>
+    <connection>scm:svn:http://sizeofag.googlecode.com/svn/tags/sizeofag-1.0.0</connection>
+    <developerConnection>scm:svn:https://sizeofag.googlecode.com/svn/tags/sizeofag-1.0.0</developerConnection>
+    <url>http://sizeofag.googlecode.com/svn/tags/sizeofag-1.0.0</url>
   </scm>
   <developers>
     <developer>
@@ -83,7 +83,7 @@
           <archive>
             <manifestEntries>
               <Premain-Class>sizeof.agent.SizeOfAgent</Premain-Class>
-              <Boot-Class-Path></Boot-Class-Path>
+              <Boot-Class-Path />
               <Can-Redefine-Classes>false</Can-Redefine-Classes>
             </manifestEntries>
           </archive>
