@@ -1,0 +1,13 @@
+#summary Maven dependency
+
+= Maven dependency =
+
+You can use the following dependency definition in your pom.xml (as soon as the project leaves the staging repository on maven central):
+
+{{{
+<dependency>
+  <groupId>com.googlecode.sizeofag</groupId>
+  <artifactId>sizeofag</artifactId>
+  <version>1.0.0</version>
+</dependency>
+}}}
