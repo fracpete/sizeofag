@@ -2,7 +2,7 @@
 
 = Maven dependency =
 
-You can use the following dependency definition in your pom.xml (as soon as the project leaves the staging repository on maven central):
+You can use the following dependency in your pom.xml:
 
 {{{
 <dependency>
