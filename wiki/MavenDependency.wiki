@@ -1,4 +1,4 @@
-#summary Maven dependency
+#summary Dependency for your pom.xml
 
 = Maven dependency =
 
