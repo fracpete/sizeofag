@@ -12,6 +12,6 @@ The following commands generate a new release:
 
 {{{
 mvn release:clean
-mvn release:prepare -Darguments=-Dgpg.passphrase=<gpg-passphrase> -Dusername=<googlecode-user> -Dpassword=<googlecode-password>
-mvn release:deploy -Darguments=-Dgpg.passphrase=<gpg-passphrase> -Dusername=<googlecode-user> -Dpassword=<googlecode-password>
+mvn release:prepare  -Dusername=<googlecode-user> -Dpassword=<googlecode-password>
+mvn release:perform  -Dusername=<googlecode-user> -Dpassword=<googlecode-password>
 }}}
