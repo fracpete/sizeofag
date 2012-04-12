@@ -15,3 +15,15 @@ mvn release:clean
 mvn release:prepare  -Dusername=<googlecode-user> -Dpassword=<googlecode-password>
 mvn release:perform  -Dusername=<googlecode-user> -Dpassword=<googlecode-password>
 }}}
+
+Or in a single command:
+
+{{{
+mvn release:clean release:prepare release:perform -Dusername=<googlecode-user> -Dpassword=<googlecode-password>
+}}}
+
+In order to skip tests (if any), append the following parameter:
+
+{{{
+ -Darguments="-DskipTests=true"
+}}}
