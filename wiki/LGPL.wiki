@@ -1,4 +1,4 @@
-#summary LPGL
+#summary Maxim's response regarding license
 
 = LGPL =
 
