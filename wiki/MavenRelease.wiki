@@ -4,7 +4,7 @@
  * Google code account and admin of this project
  * Admin of project on maven central
  * all changes committed
- * [https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven GPG key generated and published] for signing the artifacts ([http://elgg.wlug.org.nz/pg/pages/view/8060/gnupg troubleshooting])
+ * [https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven GPG key generated and published] for signing the artifacts ([http://www.wlug.org.nz/pages/view/140/gnupg troubleshooting])
 
 = Making a release =
 
