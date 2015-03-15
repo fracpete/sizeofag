@@ -1,0 +1,5 @@
+# Original code #
+
+Maxim Zakharenkov posted the original code here in 2007:
+
+http://jroller.com/maxim/entry/again_about_determining_size_of
