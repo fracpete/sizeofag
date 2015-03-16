@@ -25,7 +25,7 @@ import java.util.Stack;
 
 /** 
  * Instrumentation agent used.
- * <p/>
+ * <br>
  * This version merely outputs an error message on the commandline if the agent
  * is not present instead of throwing an exception.
  *
@@ -38,7 +38,12 @@ public class SizeOfAgent {
 
         static Boolean messageDisplayed;
 	
-	/** initializes agent */
+	/** 
+         * initializes agent.
+         *
+         * @param agentArgs the arguments (ignored)
+         * @param instP the instrumentation to use
+         */
 	public static void premain(String agentArgs, Instrumentation instP) {
 		inst = instP;		
 	}
