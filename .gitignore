@@ -20,3 +20,6 @@ build
 dist
 doc
 
+# maven
+target
+
