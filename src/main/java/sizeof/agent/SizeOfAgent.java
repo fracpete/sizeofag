@@ -125,16 +125,22 @@ public class SizeOfAgent {
 	          if (fields[i].getType().isPrimitive()) {
 	        	  continue; // skip primitive fields
 	          } else {
-	            fields[i].setAccessible(true);
 	            try {
-	              // objects to be estimated are put to stack
-	              Object objectToAdd = fields[i].get(obj);
-	              if (objectToAdd != null) {	            	
-	                stack.add(objectToAdd);
-	              }
-	            } catch (IllegalAccessException ex) { 
-	            	assert false; 
-	            }
+		      fields[i].setAccessible(true);
+		      try {
+			// objects to be estimated are put to stack
+			Object objectToAdd = fields[i].get(obj);
+			if (objectToAdd != null) {
+			  stack.add(objectToAdd);
+			}
+		      }
+		      catch (IllegalAccessException ex) {
+			assert false;
+		      }
+		    }
+		    catch (Throwable e) {
+	              // if we can't make it accessible, then just leave it be
+		    }
 	          }
 	        }
 	      }
