@@ -15,7 +15,6 @@
 
 package sizeof.agent;
 
-import java.io.Serializable;
 import java.lang.instrument.Instrumentation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -39,29 +38,6 @@ public class SizeOfAgent {
   static Instrumentation inst;
 
   static Boolean messageDisplayed;
-
-  /**
-   * Simple container for collecting statistics per class.
-   */
-  public static class Statistics
-    implements Serializable {
-
-    /** the overall size calculated for this class. */
-    public long total = 0;
-
-    /** the number of object instances. */
-    public int count = 0;
-
-    /**
-     * Returns count and total as string.
-     *
-     * @return		the content as string
-     */
-    @Override
-    public String toString() {
-      return "{count:" + count + ", total:" + total + "}";
-    }
-  }
 
   /**
    * initializes agent.
@@ -100,13 +76,24 @@ public class SizeOfAgent {
    * @return object size
    */
   public static long fullSizeOf(Object obj) {
+    return fullSizeOf(obj, null);
+  }
+
+  /**
+   * Calculates full size of object iterating over
+   * its hierarchy graph.
+   *
+   * @param obj object to calculate size of, filter does not skip this object
+   * @param filter the filter for the objects/fields, can be null
+   * @return object size
+   */
+  public static long fullSizeOf(Object obj, Filter filter) {
     Map<Object, Object> visited = new IdentityHashMap<Object, Object>();
     Stack<Object> stack = new Stack<Object>();
 
-    long result = internalSizeOf(obj, stack, visited, null);
-    while (!stack.isEmpty()) {
-      result += internalSizeOf(stack.pop(), stack, visited, null);
-    }
+    long result = internalSizeOf(obj, stack, visited, null, null);
+    while (!stack.isEmpty())
+      result += internalSizeOf(stack.pop(), stack, visited, null, filter);
     visited.clear();
     return result;
   }
@@ -119,14 +106,25 @@ public class SizeOfAgent {
    * @return the breakdown per class
    */
   public static Map<Class,Statistics> fullSizePerClass(Object obj) {
+    return fullSizePerClass(obj, null);
+  }
+
+  /**
+   * Calculates size/count statistics of object iterating over
+   * its hierarchy graph, breaking it down per class.
+   *
+   * @param obj object to calculate size of, filter does not skip this object
+   * @param filter the filter for the objects/fields, can be null
+   * @return the breakdown per class
+   */
+  public static Map<Class,Statistics> fullSizePerClass(Object obj, Filter filter) {
     Map<Class,Statistics> perClass = new HashMap<Class, Statistics>();
     Map<Object, Object> visited = new IdentityHashMap<Object, Object>();
     Stack<Object> stack = new Stack<Object>();
 
-    long result = internalSizeOf(obj, stack, visited, perClass);
-    while (!stack.isEmpty()) {
-      result += internalSizeOf(stack.pop(), stack, visited, perClass);
-    }
+    long result = internalSizeOf(obj, stack, visited, perClass, null);
+    while (!stack.isEmpty())
+      result += internalSizeOf(stack.pop(), stack, visited, perClass, filter);
     visited.clear();
     return perClass;
   }
@@ -138,7 +136,7 @@ public class SizeOfAgent {
    * @param visited the objects visited so far
    * @return true if to skip
    */
-  private static boolean skipObject(Object obj, Map<Object, Object> visited) {
+  private static boolean skipObject(Object obj, Map<Object, Object> visited, Filter filter) {
     if (obj == null)
       return true;
 
@@ -148,12 +146,17 @@ public class SizeOfAgent {
 	return true;
     }
 
+    if (filter != null) {
+      if (filter.skipObject(obj))
+        return true;
+    }
+
     // skip visited object
-    return visited.containsKey(obj);
+    return (visited.containsKey(obj));
   }
 
-  private static long internalSizeOf(Object obj, Stack<Object> stack, Map<Object, Object> visited, Map<Class,Statistics> perClass) {
-    if (skipObject(obj, visited))
+  private static long internalSizeOf(Object obj, Stack<Object> stack, Map<Object, Object> visited, Map<Class,Statistics> perClass, Filter filter) {
+    if (skipObject(obj, visited, filter))
       return 0;
 
     visited.put(obj, null);
@@ -185,30 +188,41 @@ public class SizeOfAgent {
       Field[] fields = clazz.getDeclaredFields();
       for (int i = 0; i < fields.length; i++) {
 	if (!Modifier.isStatic(fields[i].getModifiers())) {
-	  if (fields[i].getType().isPrimitive()) {
-	    continue; // skip primitive fields
+	  // skip primitive fields
+	  if (fields[i].getType().isPrimitive())
+	    continue;
+
+	  // field filter?
+	  if (filter != null) {
+	    if (filter.skipField(fields[i]))
+	      continue;
 	  }
-	  else {
+
+	  try {
+	    fields[i].setAccessible(true);
 	    try {
-	      fields[i].setAccessible(true);
-	      try {
-		// objects to be estimated are put to stack
-		Object objectToAdd = fields[i].get(obj);
-		if (objectToAdd != null) {
-		  stack.add(objectToAdd);
-		}
-	      }
-	      catch (IllegalAccessException ex) {
-		assert false;
+	      // objects to be estimated are put to stack
+	      Object objectToAdd = fields[i].get(obj);
+	      if (objectToAdd != null) {
+		stack.add(objectToAdd);
 	      }
 	    }
-	    catch (Throwable e) {
-	      // if we can't make it accessible, then just leave it be
+	    catch (IllegalAccessException ex) {
+	      assert false;
 	    }
+	  }
+	  catch (Throwable e) {
+	    // if we can't make it accessible, then just leave it be
 	  }
 	}
       }
+
       clazz = clazz.getSuperclass();
+      // skip superclass?
+      if (filter != null) {
+        if (filter.skipSuperClass(clazz))
+          clazz = null;
+      }
     }
     return result;
   }
