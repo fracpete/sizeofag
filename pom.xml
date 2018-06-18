@@ -4,7 +4,7 @@
   <artifactId>sizeofag</artifactId>
   <packaging>jar</packaging>
   <name>SizeOf Agent</name>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3</version>
   <description>sizeofag is a Java Agent that allows you to determine the size of Java objects from within the JVM at runtime. This makes it very useful for developing Java frameworks that take memory constraints into account.</description>
   <url>https://github.com/fracpete/sizeofag</url>
   <licenses>
