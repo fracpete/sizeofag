@@ -25,13 +25,16 @@ Include the following dependency in your `pom.xml`:
 **NB:** You still need to add the `-javaagent` parameter to your Java call.
 See example below for details.
 
-## Example
+## Examples
+
 You have to start up the JVM with the following additional parameter (adjusting
 the path to the jar, of course):
 
 ```bash
 -javaagent:/path/to/sizeofag-1.0.2.jar
 ```
+
+### Total size
 
 The following example code:
 
@@ -65,3 +68,53 @@ will output something like this (9.0.4, 64bit on Linux):
 40
 ```
 
+### Breakdown per class
+
+It is also possible to break down the size per class (including the number 
+object instances found) by using the `fullSizePerClass` method as in this
+example:
+
+```java
+public class SizeTest {
+
+  double d;
+  float f;
+  int i;
+  long l;
+
+  public static class InnerClass {
+    double d;
+    float f;
+  }
+
+  public static class AnotherClass {
+    InnerClass inner = new InnerClass();
+  }
+
+  AnotherClass another1 = new AnotherClass();
+  AnotherClass another2 = new AnotherClass();
+  AnotherClass another3 = new AnotherClass();
+  InnerClass inner1 = new InnerClass();
+  InnerClass inner2 = new InnerClass();
+
+  public static void main(String[] args) throws Exception {
+    System.out.println("AnotherClass (full): " + SizeOfAgent.fullSizeOf(new AnotherClass()));
+    System.out.println("InnerClass (full): " + SizeOfAgent.fullSizeOf(new InnerClass()));
+    System.out.println("SizeTest (full): " + SizeOfAgent.fullSizeOf(new SizeTest()));
+    System.out.println("AnotherClass (per class): " + SizeOfAgent.fullSizePerClass(new AnotherClass()));
+    System.out.println("InnerClass (per class): " + SizeOfAgent.fullSizePerClass(new InnerClass()));
+    System.out.println("SizeTest (per class): " + SizeOfAgent.fullSizePerClass(new SizeTest()));
+  }
+}
+```
+
+Will output something like this (9.0.4, 64bit on Linux):
+
+```
+AnotherClass: 40
+InnerClass: 24
+SizeTest: 224
+AnotherClass: {class sizeof.agent.SizeTest$AnotherClass={count:1, total:16}, class sizeof.agent.SizeTest$InnerClass={count:1, total:24}}
+InnerClass: {class sizeof.agent.SizeTest$InnerClass={count:1, total:24}}
+SizeTest: {class sizeof.agent.SizeTest$AnotherClass={count:3, total:48}, class sizeof.agent.SizeTest={count:1, total:56}, class sizeof.agent.SizeTest$InnerClass={count:5, total:120}}
+```
