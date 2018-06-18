@@ -18,7 +18,7 @@ Include the following dependency in your `pom.xml`:
 <dependency>
     <groupId>com.github.fracpete</groupId>
     <artifactId>sizeofag</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
@@ -31,7 +31,7 @@ You have to start up the JVM with the following additional parameter (adjusting
 the path to the jar, of course):
 
 ```bash
--javaagent:/path/to/sizeofag-1.0.2.jar
+-javaagent:/path/to/sizeofag-1.0.3.jar
 ```
 
 ### Total size
@@ -111,10 +111,10 @@ public class SizeTest {
 Will output something like this (9.0.4, 64bit on Linux):
 
 ```
-AnotherClass: 40
-InnerClass: 24
-SizeTest: 224
-AnotherClass: {class sizeof.agent.SizeTest$AnotherClass={count:1, total:16}, class sizeof.agent.SizeTest$InnerClass={count:1, total:24}}
-InnerClass: {class sizeof.agent.SizeTest$InnerClass={count:1, total:24}}
-SizeTest: {class sizeof.agent.SizeTest$AnotherClass={count:3, total:48}, class sizeof.agent.SizeTest={count:1, total:56}, class sizeof.agent.SizeTest$InnerClass={count:5, total:120}}
+AnotherClass (full): 40
+InnerClass (full): 24
+SizeTest (full): 224
+AnotherClass (per class): {class sizeof.agent.SizeTest$AnotherClass={count:1, total:16}, class sizeof.agent.SizeTest$InnerClass={count:1, total:24}}
+InnerClass (per class): {class sizeof.agent.SizeTest$InnerClass={count:1, total:24}}
+SizeTest (per class): {class sizeof.agent.SizeTest$AnotherClass={count:3, total:48}, class sizeof.agent.SizeTest={count:1, total:56}, class sizeof.agent.SizeTest$InnerClass={count:5, total:120}}
 ```
