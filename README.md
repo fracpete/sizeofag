@@ -34,7 +34,7 @@ the path to the jar, of course):
 -javaagent:/path/to/sizeofag-1.0.4.jar
 ```
 
-If your path contains spaces, then the whole parameter must be enclose in double quotes:
+If your path contains spaces, then the whole parameter must be enclosed in double quotes:
 
 ```bash
 "-javaagent:/path/with some spaces/sizeofag-1.0.4.jar"
