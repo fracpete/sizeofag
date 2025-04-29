@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.fracpete</groupId>
   <artifactId>sizeofag</artifactId>
   <packaging>jar</packaging>
   <name>SizeOf Agent</name>
   <version>1.1.1-SNAPSHOT</version>
   <description>sizeofag is a Java Agent that allows you to determine the size of Java objects from within the JVM at runtime. This makes it very useful for developing Java frameworks that take memory constraints into account.</description>
   <url>https://github.com/fracpete/sizeofag</url>
+
   <licenses>
     <license>
       <name>GNU Lesser General Public License 3.0</name>
@@ -14,17 +14,20 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+
   <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
+    <groupId>com.github.fracpete</groupId>
+    <artifactId>central-portal-parent</artifactId>
+    <version>0.0.2</version>
   </parent>
+
   <scm>
     <connection>scm:git:ssh://git@github.com/fracpete/sizeofag</connection>
     <developerConnection>scm:git:ssh://git@github.com/fracpete/sizeofag</developerConnection>
     <url>https://github.com/fracpete/sizeofag</url>
     <tag>HEAD</tag>
   </scm>
+
   <developers>
     <developer>
       <id>maxim</id>
@@ -42,35 +45,7 @@
       </roles>
     </developer>
   </developers>
-  <profiles>
-    <profile>
-      <id>release-sign-artifacts</id>
-      <activation>
-        <property>
-          <name>performRelease</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.1</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
+
   <build>
     <plugins>
       <plugin>
@@ -82,6 +57,7 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -96,20 +72,7 @@
           </archive>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>3.3.0</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
